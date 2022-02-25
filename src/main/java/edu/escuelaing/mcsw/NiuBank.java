@@ -13,7 +13,7 @@ public class NiuBank
     public static void main( String[] args ) throws IOException {
 
         port(getPort());
-        get("/Login",(req, res) -> "index.html");
+        get("/Login",(req, res) -> "HelloWorld");
         startServer();
     }
 

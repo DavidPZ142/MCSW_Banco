@@ -7,7 +7,7 @@ var connection = (function (){
 
         conectar : function (){
 
-            fetch ("http://localhost:36000/Login.html")
+            fetch ("http://localhost:4567/Login?name=Daniel&password=123")
                 .then(response => response.json())
                 .then(json => console.log(json))
 

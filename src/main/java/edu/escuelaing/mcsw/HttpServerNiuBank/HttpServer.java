@@ -1,5 +1,6 @@
 package edu.escuelaing.mcsw.HttpServerNiuBank;
 
+import com.google.gson.Gson;
 import edu.escuelaing.mcsw.frameworkNiuBank.Framework;
 import edu.escuelaing.mcsw.util.ReaderHTML;
 
@@ -15,6 +16,7 @@ import  edu.escuelaing.mcsw.frameworkNiuBank.FrameworkNiuBank;
 public class HttpServer {
 
     Map<String, FrameworkNiuBank> routes = new HashMap<>();
+    Gson gson = new Gson();
 
 
     public void startServer(int port) throws IOException {
@@ -60,9 +62,10 @@ public class HttpServer {
                 Framework framework = Framework.getInstance();
                 String pathNew = path.split("\\?")[0];
                 String[] parametros = pathNew.split("&");
-                String res = framework.handle(path.split("\\?")[0], parametros, null);
-                leerArchivo(path, clientSocket);
-                System.out.println(res);
+                System.out.println("Respuesta: "+validOKHttpHeader()+" "+framework.handle(path.split("\\?")[0], parametros, null));
+                out.println(validOKHttpHeader()+ gson.toJson(framework.handle(path.split("\\?")[0], parametros, null)));
+
+
 
             }else {
                 leerArchivo(path, clientSocket);
@@ -79,6 +82,13 @@ public class HttpServer {
     public void leerArchivo(String path, Socket clienteSocket) throws IOException {
         ReaderHTML reader = new ReaderHTML();
         reader.reader(path, clienteSocket);
+    }
+
+    private String validOKHttpHeader(){
+        return "HTTP/1.1 200 OK\r\n"
+                + "Conten-Type: text/html\r\n"
+                + "\r\n";
+
     }
 
 
