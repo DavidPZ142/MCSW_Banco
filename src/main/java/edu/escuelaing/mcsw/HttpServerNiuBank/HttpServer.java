@@ -39,16 +39,16 @@ public class HttpServer {
                     path = inputLine.split(" ")[1];
                     firstline = false;
                 }
-                System.out.printf("recive: "+ inputLine);
+                System.out.println("recive: "+ inputLine);
 
                 if(!in.ready()){
                     break;
                 }
             }
+            System.out.println("path: "+path);
             if(path != ""){
                 System.out.println(path);
                 leerArchivo(path, clientSocket);
-
             }
 
         }
