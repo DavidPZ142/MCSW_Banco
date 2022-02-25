@@ -1,15 +1,14 @@
 package edu.escuelaing.mcsw.HttpServerNiuBank;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import edu.escuelaing.mcsw.util.ReaderHTML;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class HttpServer {
 
-    public void startServer(String[] args) throws IOException {
+    public void startServer() throws IOException {
         ServerSocket serverSocket = null;
 
         try {
@@ -38,6 +37,7 @@ public class HttpServer {
             while((inputLine = in.readLine()) != null){
                 if(firstline){
                     path = inputLine.split(" ")[1];
+                    firstline = false;
                 }
                 System.out.printf("recive: "+ inputLine);
 
@@ -46,19 +46,20 @@ public class HttpServer {
                 }
             }
             if(path != ""){
+                System.out.println(path);
                 leerArchivo(path, clientSocket);
+
             }
+
         }
 
     }
 
     public void leerArchivo(String path, Socket clienteSocket){
         if(path.contains(".html")){
-
+            ReaderHTML reader = new ReaderHTML();
+            reader.reader(path, clienteSocket);
         }
-
-
-
     }
 
 

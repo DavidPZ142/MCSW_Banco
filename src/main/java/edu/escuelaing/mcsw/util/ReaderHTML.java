@@ -5,9 +5,11 @@ import java.net.Socket;
 
 public class ReaderHTML  implements Reader {
 
+    private String pathA = "src/main/resources/public";
+
     public void reader(String path, Socket clientSocket){
 
-        String fpath = pathA +"/"+ path;
+        String fpath = pathA + path;
         String temp="";
         String cadena="";
         File f = new File(fpath);
