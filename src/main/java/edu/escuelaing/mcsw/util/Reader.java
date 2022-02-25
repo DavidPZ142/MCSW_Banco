@@ -1,5 +1,6 @@
 package edu.escuelaing.mcsw.util;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -7,7 +8,7 @@ import java.net.Socket;
 public interface Reader {
 
 
-    void reader(String path, Socket clientSocket);
+    void reader(String path, Socket clientSocket) throws IOException;
 
     default void error (Socket clientSocket){
         String value="HTTP/1.1 404 Not Found\r\n"

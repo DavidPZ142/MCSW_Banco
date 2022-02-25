@@ -1,18 +1,27 @@
 package edu.escuelaing.mcsw.HttpServerNiuBank;
 
+import edu.escuelaing.mcsw.frameworkNiuBank.Framework;
 import edu.escuelaing.mcsw.util.ReaderHTML;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import  edu.escuelaing.mcsw.frameworkNiuBank.FrameworkNiuBank;
 
 public class HttpServer {
 
-    public void startServer() throws IOException {
+    Map<String, FrameworkNiuBank> routes = new HashMap<>();
+
+
+    public void startServer(int port) throws IOException {
         ServerSocket serverSocket = null;
 
         try {
-            serverSocket = new ServerSocket(getPort());
+            serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 35000.");
             System.exit(1);
@@ -45,31 +54,31 @@ public class HttpServer {
                     break;
                 }
             }
+
             System.out.println("path: "+path);
-            if(path != ""){
-                System.out.println(path);
+            if(path.contains("?")){
+                Framework framework = Framework.getInstance();
+                String pathNew = path.split("\\?")[0];
+                String[] parametros = pathNew.split("&");
+                String res = framework.handle(path.split("\\?")[0], parametros, null);
+                leerArchivo(path, clientSocket);
+                System.out.println(res);
+
+            }else {
                 leerArchivo(path, clientSocket);
             }
 
+            in.close();
+            out.close();
+            clientSocket.close();
         }
+        serverSocket.close();
 
     }
 
-    public void leerArchivo(String path, Socket clienteSocket){
-        if(path.contains(".html")){
-            ReaderHTML reader = new ReaderHTML();
-            reader.reader(path, clienteSocket);
-        }
-    }
-
-
-
-
-    static int getPort() {
-        if (System.getenv("PORT") != null) {
-            return Integer.parseInt(System.getenv("PORT"));
-        }
-        return 4567;
+    public void leerArchivo(String path, Socket clienteSocket) throws IOException {
+        ReaderHTML reader = new ReaderHTML();
+        reader.reader(path, clienteSocket);
     }
 
 
