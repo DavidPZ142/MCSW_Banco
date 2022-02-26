@@ -2,6 +2,7 @@ package edu.escuelaing.mcsw.frameworkNiuBank;
 
 import com.sun.deploy.net.HttpRequest;
 import com.sun.deploy.net.HttpResponse;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.function.BiFunction;
@@ -9,7 +10,7 @@ import java.util.function.BiFunction;
 public class ImplementsFramework {
 
 
-    public static void get(String route, BiFunction<String[], HttpResponse, String> biFunction){
+    public static void get(String route, BiFunction<String, HttpResponse, JSONObject> biFunction){
         Framework framework = Framework.getInstance();
         framework.get(route, biFunction);
 

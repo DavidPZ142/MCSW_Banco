@@ -59,13 +59,7 @@ public class HttpServer {
 
             System.out.println("path: "+path);
             if(path.contains("?")){
-                Framework framework = Framework.getInstance();
-                String pathNew = path.split("\\?")[0];
-                String[] parametros = pathNew.split("&");
-                System.out.println("Respuesta: "+validOKHttpHeader()+" "+framework.handle(path.split("\\?")[0], parametros, null));
-                out.println(validOKHttpHeader()+ gson.toJson(framework.handle(path.split("\\?")[0], parametros, null)));
-
-
+                response(path, out);
 
             }else {
                 leerArchivo(path, clientSocket);
@@ -83,6 +77,16 @@ public class HttpServer {
         ReaderHTML reader = new ReaderHTML();
         reader.reader(path, clienteSocket);
     }
+
+    public void response(String path, PrintWriter out){
+        Framework framework = Framework.getInstance();
+        String[] pathNew = path.split("\\?");
+        //System.out.println("Respuesta: "+validOKHttpHeader()+" "+framework.handle(pathNew[0], pathNew[1], null).toString());
+        out.println(validOKHttpHeader()+framework.handle(pathNew[0], pathNew[1], null).toString());
+
+    }
+
+
 
     private String validOKHttpHeader(){
         return "HTTP/1.1 200 OK\r\n"

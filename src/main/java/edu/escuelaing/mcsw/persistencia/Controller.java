@@ -1,5 +1,7 @@
 package edu.escuelaing.mcsw.persistencia;
 
+import org.json.JSONObject;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +12,7 @@ public class Controller {
 
     ConnectionDb connectionDb;
     Connection connection;
-
+    private JSONObject  res;
 
     public Controller(){
 
@@ -18,25 +20,38 @@ public class Controller {
         connection = connectionDb.getConnect();
     }
 
+    public JSONObject findUser(String correo, String password){
+        System.out.println(correo+ " "+ password);
+        res = new JSONObject();
+        String select = "SELECT * FROM usuario where usuario.correo = '"+correo+"' and usuario.contrasena = '"+password+"';";
+        System.out.println(select);
+        try{
+            ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            resultSet.next();
+            res.put("nombre",resultSet.getString("nombre"));
+            res.put("apellido",resultSet.getString("apellido"));
+            res.put("fondos",resultSet.getString("fondos"));
+            //connection.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
 
-    public List<String> selectUser(){
-        List<String> list = new ArrayList<>();
+
+    public JSONObject  selectUser(){
+        res = new JSONObject ();
         String select = "SELECT * FROM usuario;";
         try {
 
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
             connection.close();
             while (resultSet.next()){
-                list.add(resultSet.getString("nombre"));
-                list.add(resultSet.getString("cedula"));
-                list.add(resultSet.getString("apellido"));
-                list.add(resultSet.getString("correo"));
-                list.add(resultSet.getString("contrasena"));
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return list;
+        return res;
     }
 
 

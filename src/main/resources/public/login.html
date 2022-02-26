@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="Stylesheet" href="styles/styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="js/login.js"></script>
 </head>
 <body class="fondo">
 
@@ -17,9 +19,9 @@
         <input type="text" id="user">
         <br>
         <label>Contraseña:  </label>
-        <input type="text" id="password">
+        <input type="password" id="password">
         <br>
-        <button type="button" class="button" > Acceder </button>
+        <button type="button" class="button" onclick="connection.conectar($('#user').val(), $('#password').val())"> Acceder </button>
 
     </div>
 

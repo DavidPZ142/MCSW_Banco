@@ -20,6 +20,11 @@
     <name>MCSW-Banco</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20180130</version>
+      </dependency>
       <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
       <dependency>
           <groupId>org.postgresql</groupId>

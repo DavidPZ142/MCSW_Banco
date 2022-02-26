@@ -2,24 +2,25 @@ package edu.escuelaing.mcsw.frameworkNiuBank;
 
 import com.sun.deploy.net.HttpResponse;
 import edu.escuelaing.mcsw.HttpServerNiuBank.*;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class Framework {
+public class Framework implements FrameworkNiuBank{
 
     private static Framework _intance = new Framework();
     private int httPort = 36000;
-    Map<String, BiFunction<String[], HttpResponse, String>> functionMap = new HashMap<String, BiFunction<String[], HttpResponse, String>>();
+    Map<String, BiFunction<String, HttpResponse, JSONObject > >functionMap = new HashMap<>();
     HttpServer httpServer = new HttpServer();
 
     public static Framework getInstance() {
         return _intance;
     }
 
-    public void get(String route, BiFunction<String[], HttpResponse, String> biFunction){
+    public void get(String route, BiFunction<String, HttpResponse, JSONObject> biFunction){
         functionMap.put(route, biFunction);
     }
 
@@ -31,13 +32,14 @@ public class Framework {
         this.httPort = serverPort;
     }
 
-    public String handle(String path, String[] req, HttpResponse res){
+    @Override
+    public JSONObject handle(String path, String req, HttpResponse res){
 
         if(functionMap.containsKey(path)){
             return functionMap.get(path).apply(req,res);
         }else if (path.contains("get")){
             System.out.println("base de datos");
-        }return validErrorHttpHeader();
+        }return null;
 
     }
 

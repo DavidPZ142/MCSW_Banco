@@ -1,10 +1,7 @@
 package edu.escuelaing.mcsw.util;
 
-import edu.escuelaing.mcsw.persistencia.Controller;
-
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 
 public class ReaderHTML  implements Reader {
 
