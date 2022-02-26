@@ -1,7 +1,7 @@
 package edu.escuelaing.mcsw.frameworkNiuBank;
 
 import com.sun.deploy.net.HttpResponse;
-import edu.escuelaing.mcsw.HttpServerNiuBank.HttpServer;
+import edu.escuelaing.mcsw.HttpServerNiuBank.*;
 
 import java.io.IOException;
 import java.util.HashMap;
