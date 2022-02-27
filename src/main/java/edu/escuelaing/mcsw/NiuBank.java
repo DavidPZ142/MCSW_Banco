@@ -17,6 +17,7 @@ public class NiuBank
         ServiciosNiubank serviciosNiubank = new ServiciosNiubank();
         port(getPort());
         get("/Login",(req, res) -> serviciosNiubank.login(req));
+        get("/Fondos",(req, res) -> serviciosNiubank.montoUsuario());
         startServer();
     }
 

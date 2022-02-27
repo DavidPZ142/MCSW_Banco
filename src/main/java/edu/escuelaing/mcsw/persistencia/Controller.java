@@ -54,6 +54,18 @@ public class Controller {
         return res;
     }
 
-
+    public JSONObject montoTotal(){
+        res = new JSONObject();
+        String select = "SELECT fondos FROM usuario;";
+        try {
+            ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            connection.close();
+            res.put("Fondos",resultSet.getString("fondos"));
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println(res);
+        return res;
+    }
 
 }
