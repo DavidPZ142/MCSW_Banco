@@ -68,6 +68,8 @@ public class Controller {
         return res.put("Registro", false);
     }
 
+
+
     public JSONObject transferencia(String ccOrigen, String ccDestino, String monto){
         UUID uuid = UUID.randomUUID();
         res = new JSONObject();
@@ -99,6 +101,23 @@ public class Controller {
 
         return res.put("transferencia", false);
 
+    }
+
+    public JSONObject verTransferencias(){
+        res =new JSONObject();
+        String select = "SELECT * FROM transaccion ;";
+        try {
+            ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            if ( resultSet.next()){
+                res.put("numtransaccion ", resultSet.getString("numtransaccion"));
+                res.put("cedulaemisor", resultSet.getString("cedulaemisor"));
+                res.put("cedulareceptor",resultSet.getString("cedulareceptor"));
+                res.put("cantidad",resultSet.getInt("cantidad"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
     }
 
 

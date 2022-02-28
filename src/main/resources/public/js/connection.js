@@ -19,7 +19,7 @@ var connection = (function (){
                     }else if (data.rol == "USER") {
                         location.href = 'lobyUser.html'
                     }else{
-                       location.href = 'lobyUser.html'
+                       location.href = 'lobyAuditor.html'
                     }
 
                 })
