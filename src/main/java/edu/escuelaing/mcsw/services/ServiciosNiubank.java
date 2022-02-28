@@ -34,9 +34,16 @@ public class ServiciosNiubank {
         return controller.transferencia(paths[0].split("=")[1], paths[1].split("=")[1], paths[2].split("=")[1]);
     }
 
-    /*public JSONObject verFondos(String parametros){
-        String[] paths = parametros.split();
-    }*/
+
+    public JSONObject verFondos(String parametros){
+        String[] paths = parametros.split("=");
+        System.out.println(Arrays.toString(paths));
+        return controller.verMonto(paths[1]);
+    }
+
+    public JSONObject verTransaccion(){
+        return controller.verTransferencias();
+    }
 
 
 

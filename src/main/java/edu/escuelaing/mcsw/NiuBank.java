@@ -19,6 +19,8 @@ public class NiuBank
         get("/Login",(req, res) -> serviciosNiubank.login(req));
         get("/Registrar",(req, res) -> serviciosNiubank.registrarUser(req));
         get("/Transferencia", (req, res) -> serviciosNiubank.tranferencia(req));
+        get("/VerFondos", (req, res) -> serviciosNiubank.verFondos(req));
+        get("/verTransferencia", (req, res) -> serviciosNiubank.verTransaccion());
         startServer();
     }
 

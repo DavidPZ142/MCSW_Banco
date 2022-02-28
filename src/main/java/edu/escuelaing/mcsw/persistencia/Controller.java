@@ -108,7 +108,7 @@ public class Controller {
         String select = "SELECT * FROM transaccion ;";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
-            if ( resultSet.next()){
+            while ( resultSet.next()){
                 res.put("numtransaccion ", resultSet.getString("numtransaccion"));
                 res.put("cedulaemisor", resultSet.getString("cedulaemisor"));
                 res.put("cedulareceptor",resultSet.getString("cedulareceptor"));
@@ -126,9 +126,10 @@ public class Controller {
 
     public JSONObject verMonto(String cedula){
         res = new JSONObject();
-        String select = "SELECT nombre, fondos FROM usuario where usuario.cedula ="+cedula+";";
+        String select = "SELECT nombre, fondos FROM usuario where usuario.cedula ='"+cedula+"';";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            resultSet.next();
             res.put("nombre", resultSet.getString("nombre"));
             res.put("fondos", resultSet.getString("fondos"));
 
@@ -157,6 +158,9 @@ public class Controller {
         }
         return res;
     }
+
+
+
 
 
 
