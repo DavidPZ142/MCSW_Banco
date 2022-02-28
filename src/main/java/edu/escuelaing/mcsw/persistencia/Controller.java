@@ -90,6 +90,21 @@ public class Controller {
         }
 
         return res.put("transferencia", false);
+    }
+
+    public JSONObject verMonto(String cedula){
+        res = new JSONObject();
+        String select = "SELECT nombre, fondos FROM usuario where usuario.cedula ="+cedula+";";
+        try {
+            ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            res.put("nombre", resultSet.getString("nombre"));
+            res.put("fondos", resultSet.getString("fondos"));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return res;
 
     }
 
