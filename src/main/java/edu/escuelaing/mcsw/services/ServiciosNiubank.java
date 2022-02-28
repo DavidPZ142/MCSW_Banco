@@ -35,7 +35,9 @@ public class ServiciosNiubank {
     }
 
     public JSONObject verFondos(String parametros){
-        String[] paths = parametros.split()
+        String[] paths = parametros.split("=");
+        System.out.println(Arrays.toString(paths));
+        return controller.verMonto(paths[1]);
     }
 
 

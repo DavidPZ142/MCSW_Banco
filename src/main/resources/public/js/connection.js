@@ -46,7 +46,21 @@ var connection = (function (){
                         alert("transerencia realizada")
                     }
                 })
+        },
+
+        loadMonto : function(){
+            let info = JSON.parse(localStorage.getItem("cedula"));
+            fetch("http://localhost:4567/VerFondos?cedula="+info.cedula)
+            .then(response => response.json())
+            .then(function(data){
+                console.log(data)
+                $('#nombre').html(data.nombre)
+                $('#monto').html(data.fondos)
+
+            })
+
         }
+
 
     }
 
