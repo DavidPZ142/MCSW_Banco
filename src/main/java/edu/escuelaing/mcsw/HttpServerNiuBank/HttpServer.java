@@ -60,7 +60,7 @@ public class HttpServer {
             System.out.println("path: "+path);
             if(path.contains("?")){
                 response(path, out);
-
+;
             }else {
                 leerArchivo(path, clientSocket);
             }

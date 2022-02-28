@@ -8,6 +8,7 @@ var connection = (function (){
         conectar : function (){
             location.href = 'login.html'
 
+
         }
 
     }

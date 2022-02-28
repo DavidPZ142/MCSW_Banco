@@ -21,7 +21,7 @@ public class ConnectionDb {
                 connect = DriverManager.getConnection(url,user,password);
             }
 
-            connect.setAutoCommit(false);
+            //connect.setAutoCommit(false);
 
         }catch (SQLException e){
             e.printStackTrace();
