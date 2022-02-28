@@ -9,18 +9,18 @@
 </head>
 <body class="fondo">
 
-    <h1  align="center"> Login </h1>
+    <h1  align="center"> Inicio de sesion </h1>
 
     <div  class="container">
 
-        <label> Ingrese al banco </label>
+        <label> <b>Ingrese sus credenciales </b> </label>
+        <br><br>
+        <label>Usuario: </label>
+        <input type="number" id="user">
         <br>
-        <label>Usuario:  </label>
-        <input type="text" id="user">
-        <br>
-        <label>Contraseña:  </label>
+        <label>Contraseña: </label>
         <input type="password" id="password">
-        <br>
+        <br><br>
         <button type="button" class="button" onclick="connection.conectar($('#user').val(), $('#password').val())"> Acceder </button>
 
     </div>
