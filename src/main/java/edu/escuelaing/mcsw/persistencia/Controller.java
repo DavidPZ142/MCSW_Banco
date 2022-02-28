@@ -47,6 +47,7 @@ public class Controller {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
             connection.close();
             while (resultSet.next()){
+                res.put("Nombre",resultSet.getString("nombre"));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -59,8 +60,8 @@ public class Controller {
         String select = "SELECT fondos FROM usuario;";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
-            connection.close();
             res.put("Fondos",resultSet.getString("fondos"));
+            connection.close();
         }catch (SQLException e){
             e.printStackTrace();
         }
