@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 
 public class Controller {
@@ -68,10 +69,11 @@ public class Controller {
     }
 
     public JSONObject transferencia(String ccOrigen, String ccDestino, String monto){
-
+        UUID uuid = UUID.randomUUID();
         res = new JSONObject();
         String ccOrigenSelect = "UPDATE usuario SET fondos = fondos + ? where cedula = ?";
         String ccDestinoSelect = "UPDATE usuario SET fondos = fondos - ? where cedula = ?";
+        String transaccion  = "INSERT INTO transaccion values (?,?,?,?)";
         try {
 
             PreparedStatement stmt = connection.prepareStatement(ccOrigenSelect);
@@ -80,8 +82,14 @@ public class Controller {
             PreparedStatement stmt2 = connection.prepareStatement(ccDestinoSelect);
             stmt2.setInt(1, Integer.parseInt(monto));
             stmt2.setString(2, ccOrigen);
+            PreparedStatement stmt3 = connection.prepareStatement(transaccion);
+            stmt3.setString(1,uuid.toString());
+            stmt3.setString(2,ccOrigen);
+            stmt3.setString(3,ccDestino);
+            stmt3.setInt(4,Integer.parseInt(monto));
             System.out.println(stmt.executeUpdate());
             System.out.println(stmt2.executeUpdate());
+            System.out.println(stmt3.executeUpdate());
 
             return res.put("transferencia", true);
 
@@ -90,7 +98,12 @@ public class Controller {
         }
 
         return res.put("transferencia", false);
+
     }
+
+
+
+
 
     public JSONObject verMonto(String cedula){
         res = new JSONObject();

@@ -16,9 +16,10 @@ var connection = (function (){
 
                     if(data.rol == "ADMIN"){
                         location.href = 'lobyAdmin.html'
-                    }else {
-
+                    }else if (data.rol == "USER") {
                         location.href = 'lobyUser.html'
+                    }else{
+                       location.href = 'lobyUser.html'
                     }
 
                 })
