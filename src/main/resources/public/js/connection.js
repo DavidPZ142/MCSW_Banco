@@ -12,11 +12,15 @@ var connection = (function (){
                 .then(response => response.json())
                 .then(function (data){
                     console.log(data)
+                    localStorage.setItem("cedula", JSON.stringify(data))
+
                     if(data.rol == "ADMIN"){
                         location.href = 'lobyAdmin.html'
                     }else {
+
                         location.href = 'lobyUser.html'
                     }
+
                 })
         },
 
@@ -32,7 +36,8 @@ var connection = (function (){
         },
 
         transferencia: function (cedulaDestino, monto){
-            fetch("http://localhost:4567/Transferencia?ccOrigen=15888&ccDestino="+cedulaDestino+"&monto="+monto)
+            let info = JSON.parse(localStorage.getItem("cedula"))
+            fetch("http://localhost:4567/Transferencia?ccOrigen="+info.cedula+"&ccDestino="+cedulaDestino+"&monto="+monto)
                 .then(response => response.json())
                 .then( function (data){
                     console.log(data.transferencia)
