@@ -1,5 +1,5 @@
 .fondo{
-    background: linear-gradient(to right, blue, silver);
+    background: linear-gradient(#e66465, #9198e5);
 }
 
 table {
@@ -11,10 +11,11 @@ table {
 .container {
     font-family: "Comic Sans MS";
     font-size: 24px;
-    background: darkgrey;
+    background: #ffffff;
+    opacity: 0.9;
     width: 350px;
-    height: 200px;
-    outline: dashed 1px black;
+    height: 230px;
+    outline: dashed 1px blue;
     text-align: center;
     margin: auto;
     border: 3px solid silver;
@@ -58,4 +59,11 @@ table {
     margin: 0;
     opacity: 1;
     transition: 0s
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
 }
