@@ -18,8 +18,10 @@ var connection = (function (){
                         location.href = 'lobyAdmin.html'
                     }else if (data.rol == "USER") {
                         location.href = 'lobyUser.html'
-                    }else{
+                    }else if(data.rol == "AUDITOR"){
                        location.href = 'lobyAuditor.html'
+                    }else {
+                        alert("usted no se encuentra registrado")
                     }
 
                 })
@@ -98,6 +100,25 @@ var connection = (function (){
                     }
 
                 })
+
+        },
+
+        crearUser : function (cedula, contrasena){
+
+            fetch("http://localhost:4567/createUser?cedula="+cedula+"&cotrasena="+contrasena)
+                .then(response => response.json())
+                .then( function (data){
+                    if(data.creado){
+                        alert("cuenta creado con exito")
+                        location.href = 'login.html'
+                    }else if(data.creado == 'cread'){
+                        alert("usted ya posee una cuenta")
+                    }
+                    else {
+                        alert("usted no esta registrado")
+                    }
+                })
+
 
         }
 

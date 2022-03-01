@@ -181,9 +181,32 @@ public class Controller {
 
     }
 
+    public JSONObject crearUser(String cedula, String contrasena){
+        res = new JSONObject();
+        String create = "SELECT * FROM usuario WHERE usuario.cedula = '"+cedula+"';";
+        String update = "UPDATE usuario SET contrasena = ?  where cedula = ?";
+        String update1 = "UPDATE usuario SET registrado = true where cedula = ?";
+        try {
+            ResultSet resultSet = connection.prepareStatement(create).executeQuery();
+            if(resultSet.next()){
+                if(!resultSet.getBoolean("registrado")) {
+                    PreparedStatement stmt = connection.prepareStatement(update);
+                    stmt.setString(1, contrasena);
+                    stmt.setString(2, cedula);
+                    PreparedStatement stmt1 = connection.prepareStatement(update1);
+                    stmt1.setString(1, cedula);
+                    stmt1.executeUpdate();
+                    System.out.println(stmt.executeUpdate());
+                    return res.put("creado", true);
+                }
+                return res.put("creado" , "creado");
+            }
 
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res.put("creado", false);
 
-
-
+    }
 
 }

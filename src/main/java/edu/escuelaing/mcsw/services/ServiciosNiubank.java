@@ -51,6 +51,13 @@ public class ServiciosNiubank {
 
     }
 
+    public JSONObject crearUser(String parametros){
+
+        String[] paths = parametros.split("&");
+        return controller.crearUser(paths[0].split("=")[1], paths[1].split("=")[1]);
+
+    }
+
 
 
 }
