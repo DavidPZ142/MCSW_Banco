@@ -96,9 +96,18 @@ var connection = (function (){
                     if (data.modificacion){
                         alert("monto modificado")
                     }
-
                 })
+        },
 
+        solicitarSobregiro: function (cedula, monto){
+            fetch("http://localhost:4567/solicitarSobregiro?cedula="+cedula+"&monto"+cantidad)
+                .then(response => response.json())
+                .then(function (data){
+                    if(data){
+                        alert("Sobregiro Solicitado")
+                    }
+
+            })
         }
 
     }

@@ -3,6 +3,7 @@ package edu.escuelaing.mcsw.services;
 import edu.escuelaing.mcsw.persistencia.Controller;
 import org.json.JSONObject;
 
+import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,8 +49,14 @@ public class ServiciosNiubank {
     public JSONObject modificarMonto(String parametros){
         String[] paths = parametros.split("&");
         return controller.modificarMonto(paths[0].split("=")[1], paths[1].split("=")[1]);
-
     }
+
+    public JSONObject solicitarSobregiro(String parametros){
+        String[] paths = parametros.split("&");
+        return controller.solicitarSobregiro(paths[0].split("=")[1], paths[1].split("=")[1]);
+    }
+
+
 
 
 
