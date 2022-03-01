@@ -17,5 +17,5 @@ _Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios
 * **David Pérez**    [David Pérez](https://github.com/DavidPZ666)
 * **Daniel Porras**  [Daniel Porras](https://github.com/Daniel19902)
 * **Sebastian**      [Sebastian Giraldo](https://github.com/juseda)
-* **Julian Peña**  
+* **Julian Peña**    [Julian Peña](https://github.com/JulianP-24)
 
