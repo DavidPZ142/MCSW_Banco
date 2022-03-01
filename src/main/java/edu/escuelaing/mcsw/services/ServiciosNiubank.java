@@ -45,6 +45,12 @@ public class ServiciosNiubank {
         return controller.verTransferencias();
     }
 
+    public JSONObject modificarMonto(String parametros){
+        String[] paths = parametros.split("&");
+        return controller.modificarMonto(paths[0].split("=")[1], paths[1].split("=")[1]);
+
+    }
+
 
 
 }

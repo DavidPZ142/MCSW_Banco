@@ -62,12 +62,45 @@ var connection = (function (){
         },
 
         verTransferencia : function(){
-        fetch("http://localhost:4567/verTransferencia?transacciones=users")
-        .then(response => response.json())
-        .then(function(data){
-        console.log(data)
-        })
+            fetch("http://localhost:4567/verTransferencia?transacciones=users")
+                .then(response => response.json())
+                .then(function(data){
+                    let html = "<tr>";
+                    let monto = 0;
+                    let numero = 0;
+                    for ( const property in data){
+                        console.log(data[property])
+                        monto += data[property].cantidad
+                        numero +=1
+                        html += "<td>" + data[property].cedulaemisor + "</td>"
+                        html += "<td>" + data[property].cedulareceptor + "</td>"
+                        html += "<td>" + data[property].cantidad + "</td>"
+                        html += "</tr>"
+                        $('#bodyTable').html(html)
+                    }
+                    $('#monto').html(monto)
+                    $('#total').html(numero)
+
+
+
+                })
+        },
+
+        modificarMonto :  function (cedula, cantidad){
+            console.log(cedula)
+            console.log(cantidad)
+            fetch("http://localhost:4567/modificarMonto?cedula="+cedula+"&cantidad="+cantidad)
+                .then(response => response.json())
+                .then(function (data){
+
+                    if (data.modificacion){
+                        alert("monto modificado")
+                    }
+
+                })
+
         }
+
     }
 
 

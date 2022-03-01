@@ -105,23 +105,24 @@ public class Controller {
 
     public JSONObject verTransferencias(){
         res =new JSONObject();
+        int key = 0;
         String select = "SELECT * FROM transaccion ;";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
             while ( resultSet.next()){
-                res.put("numtransaccion ", resultSet.getString("numtransaccion"));
-                res.put("cedulaemisor", resultSet.getString("cedulaemisor"));
-                res.put("cedulareceptor",resultSet.getString("cedulareceptor"));
-                res.put("cantidad",resultSet.getInt("cantidad"));
+                JSONObject res2 = new JSONObject();
+                key +=1;
+                res2.put("numtransaccion ", resultSet.getString("numtransaccion"));
+                res2.put("cedulaemisor", resultSet.getString("cedulaemisor"));
+                res2.put("cedulareceptor",resultSet.getString("cedulareceptor"));
+                res2.put("cantidad",resultSet.getInt("cantidad"));
+                res.put(String.valueOf(key), res2);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
         return res;
     }
-
-
-
 
 
     public JSONObject verMonto(String cedula){
@@ -157,6 +158,27 @@ public class Controller {
             e.printStackTrace();
         }
         return res;
+    }
+
+    public JSONObject modificarMonto(String cedula, String cantidad){
+        res = new JSONObject();
+        String update = "UPDATE usuario SET fondos = ? where cedula = ? ;";
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(update);
+            stmt.setInt(1, Integer.parseInt(cantidad));
+            stmt.setString(2, cedula);
+            stmt.executeUpdate();
+            return res.put("modificacion", true);
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return res.put("modificacion", false);
+
+
     }
 
 
