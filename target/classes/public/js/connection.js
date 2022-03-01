@@ -18,8 +18,10 @@ var connection = (function (){
                         location.href = 'lobyAdmin.html'
                     }else if (data.rol == "USER") {
                         location.href = 'lobyUser.html'
-                    }else{
+                    }else if(data.rol == "AUDITOR"){
                        location.href = 'lobyAuditor.html'
+                    }else {
+                        alert("usted no se encuentra registrado")
                     }
 
                 })
@@ -99,8 +101,9 @@ var connection = (function (){
                 })
         },
 
+
         solicitarSobregiro: function (cedula, monto){
-            fetch("http://localhost:4567/solicitarSobregiro?cedula="+cedula+"&monto"+cantidad)
+            fetch("http://localhost:4567/solicitarSobregiro?cedula="+cedula+"&monto="+monto)
                 .then(response => response.json())
                 .then(function (data){
                     if(data){
@@ -108,9 +111,52 @@ var connection = (function (){
                     }
 
             })
+
+        },
+
+        crearUser : function (cedula, contrasena){
+
+            fetch("http://localhost:4567/createUser?cedula="+cedula+"&cotrasena="+contrasena)
+                .then(response => response.json())
+                .then( function (data){
+                    if(data.creado){
+                        alert("cuenta creado con exito")
+                        location.href = 'login.html'
+                    }else if(data.creado == 'cread'){
+                        alert("usted ya posee una cuenta")
+                    }
+                    else {
+                        alert("usted no esta registrado")
+                    }
+                })
+        },
+
+        mostrarAutorizaciones: function (){
+            fetch("http://localhost:4567/mostrarAutorizaciones?autorizaciones=auto")
+                .then(response => response.json())
+                .then(function (data){
+                    let html = "<tr>";
+                    console.log(data)
+                    for ( const property in data){
+                        html += "<td>" + data[property].id+ "</td>"
+                        html += "<td>" + data[property].cedula + "</td>"
+                        html += "<td>" + data[property].monto + "</td>"
+                        html += "<td> <button type='button'  onclick='connection.autorizar(\""+data[property].cedula+"\", \""+data[property].monto+"\")' >Aceptar!</button></td>";
+                        html += "</tr>"
+                        $('#body').html(html)
+                    }
+                })
+        },
+
+        autorizar: function (cedula, monto){
+            console.log(cedula)
+            console.log(monto)
+            fetch("http://localhost:4567/autorizar?cedula="+cedula+"&monto="+monto)
+                .then(response => response.json())
+                .then(function (data){
+                    alert("Monto Girado con exito")
+
+                })
         }
-
     }
-
-
 })();

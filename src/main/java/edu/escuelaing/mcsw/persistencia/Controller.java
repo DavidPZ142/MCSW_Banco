@@ -13,23 +13,23 @@ public class Controller {
 
     ConnectionDb connectionDb;
     Connection connection;
-    private JSONObject  res;
+    private JSONObject res;
 
-    public Controller(){
+    public Controller() {
 
         this.connectionDb = new ConnectionDb();
         connection = connectionDb.getConnect();
     }
 
-    public JSONObject findUser(String correo, String password){
-        System.out.println(correo+ " "+ password);
+    public JSONObject findUser(String correo, String password) {
+        System.out.println(correo + " " + password);
         res = new JSONObject();
-        String select = "SELECT * FROM usuario where usuario.correo = '"+correo+"' and usuario.contrasena = '"+password+"';";
+        String select = "SELECT * FROM usuario where usuario.correo = '" + correo + "' and usuario.contrasena = '" + password + "';";
         System.out.println(select);
-        try{
+        try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 res.put("cedula", resultSet.getString("cedula"));
                 res.put("nombre", resultSet.getString("nombre"));
                 res.put("apellido", resultSet.getString("apellido"));
@@ -37,13 +37,13 @@ public class Controller {
                 res.put("rol", resultSet.getString("rol"));
                 //connection.close();
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
 
-    public JSONObject registrarUser(String cedula, String nombre, String apellido, String correo, String contrasena, String fondos){
+    public JSONObject registrarUser(String cedula, String nombre, String apellido, String correo, String contrasena, String fondos) {
         res = new JSONObject();
         String rol = "USER";
         String select = "INSERT INTO usuario Values (?,?,?,?,?,?,?,?)";
@@ -61,21 +61,20 @@ public class Controller {
             stmt.setBoolean(8, false);
             System.out.println(stmt.executeUpdate());
             //connection.close();
-            return res.put("Registro",true);
-        }catch (SQLException e){
+            return res.put("Registro", true);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res.put("Registro", false);
     }
 
 
-
-    public JSONObject transferencia(String ccOrigen, String ccDestino, String monto){
+    public JSONObject transferencia(String ccOrigen, String ccDestino, String monto) {
         UUID uuid = UUID.randomUUID();
         res = new JSONObject();
         String ccOrigenSelect = "UPDATE usuario SET fondos = fondos + ? where cedula = ?";
         String ccDestinoSelect = "UPDATE usuario SET fondos = fondos - ? where cedula = ?";
-        String transaccion  = "INSERT INTO transaccion values (?,?,?,?)";
+        String transaccion = "INSERT INTO transaccion values (?,?,?,?)";
         try {
 
             PreparedStatement stmt = connection.prepareStatement(ccOrigenSelect);
@@ -85,17 +84,17 @@ public class Controller {
             stmt2.setInt(1, Integer.parseInt(monto));
             stmt2.setString(2, ccOrigen);
             PreparedStatement stmt3 = connection.prepareStatement(transaccion);
-            stmt3.setString(1,uuid.toString());
-            stmt3.setString(2,ccOrigen);
-            stmt3.setString(3,ccDestino);
-            stmt3.setInt(4,Integer.parseInt(monto));
+            stmt3.setString(1, uuid.toString());
+            stmt3.setString(2, ccOrigen);
+            stmt3.setString(3, ccDestino);
+            stmt3.setInt(4, Integer.parseInt(monto));
             System.out.println(stmt.executeUpdate());
             System.out.println(stmt2.executeUpdate());
             System.out.println(stmt3.executeUpdate());
 
             return res.put("transferencia", true);
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -103,38 +102,38 @@ public class Controller {
 
     }
 
-    public JSONObject verTransferencias(){
-        res =new JSONObject();
+    public JSONObject verTransferencias() {
+        res = new JSONObject();
         int key = 0;
         String select = "SELECT * FROM transaccion ;";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
-            while ( resultSet.next()){
+            while (resultSet.next()) {
                 JSONObject res2 = new JSONObject();
-                key +=1;
+                key += 1;
                 res2.put("numtransaccion ", resultSet.getString("numtransaccion"));
                 res2.put("cedulaemisor", resultSet.getString("cedulaemisor"));
-                res2.put("cedulareceptor",resultSet.getString("cedulareceptor"));
-                res2.put("cantidad",resultSet.getInt("cantidad"));
+                res2.put("cedulareceptor", resultSet.getString("cedulareceptor"));
+                res2.put("cantidad", resultSet.getInt("cantidad"));
                 res.put(String.valueOf(key), res2);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
 
 
-    public JSONObject verMonto(String cedula){
+    public JSONObject verMonto(String cedula) {
         res = new JSONObject();
-        String select = "SELECT nombre, fondos FROM usuario where usuario.cedula ='"+cedula+"';";
+        String select = "SELECT nombre, fondos FROM usuario where usuario.cedula ='" + cedula + "';";
         try {
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
             resultSet.next();
             res.put("nombre", resultSet.getString("nombre"));
             res.put("fondos", resultSet.getString("fondos"));
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -143,24 +142,22 @@ public class Controller {
     }
 
 
-
-
-    public JSONObject  selectUser(){
-        res = new JSONObject ();
+    public JSONObject selectUser() {
+        res = new JSONObject();
         String select = "SELECT * FROM usuario;";
         try {
 
             ResultSet resultSet = connection.prepareStatement(select).executeQuery();
             connection.close();
-            while (resultSet.next()){
+            while (resultSet.next()) {
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res;
     }
 
-    public JSONObject modificarMonto(String cedula, String cantidad){
+    public JSONObject modificarMonto(String cedula, String cantidad) {
         res = new JSONObject();
         String update = "UPDATE usuario SET fondos = ? where cedula = ? ;";
 
@@ -172,31 +169,103 @@ public class Controller {
             return res.put("modificacion", true);
 
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return res.put("modificacion", false);
     }
 
-    public JSONObject solicitarSobregiro(String cedula , String monto){
+    public JSONObject solicitarSobregiro(String cedula, String monto) {
         res = new JSONObject();
         UUID uuid = UUID.randomUUID();
         String insert = "INSERT INTO autorizacion values (?,?,?);";
-        try{
+        try {
             PreparedStatement stmt = connection.prepareStatement(insert);
-            stmt.setString(1,uuid.toString());
-            stmt.setString(2,cedula);
-            stmt.setInt(3,Integer.parseInt(monto));
+            stmt.setString(1, uuid.toString());
+            stmt.setString(2, cedula);
+            stmt.setInt(3, Integer.parseInt(monto));
             System.out.println(stmt.executeUpdate());
             return res.put("Sobregiro", true);
 
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return res.put("Sobregiro", false);
 
     }
 
+
+    public JSONObject crearUser(String cedula, String contrasena) {
+        res = new JSONObject();
+        String create = "SELECT * FROM usuario WHERE usuario.cedula = '" + cedula + "';";
+        String update = "UPDATE usuario SET contrasena = ?  where cedula = ?";
+        String update1 = "UPDATE usuario SET registrado = true where cedula = ?";
+        try {
+            ResultSet resultSet = connection.prepareStatement(create).executeQuery();
+            if (resultSet.next()) {
+                if (!resultSet.getBoolean("registrado")) {
+                    PreparedStatement stmt = connection.prepareStatement(update);
+                    stmt.setString(1, contrasena);
+                    stmt.setString(2, cedula);
+                    PreparedStatement stmt1 = connection.prepareStatement(update1);
+                    stmt1.setString(1, cedula);
+                    stmt1.executeUpdate();
+                    System.out.println(stmt.executeUpdate());
+                    return res.put("creado", true);
+                }
+                return res.put("creado", "creado");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res.put("creado", false);
+
+    }
+
+    public JSONObject mostrarAutorizaciones() {
+        res = new JSONObject();
+        int key = 0;
+        String select = "SELECT * FROM autorizacion;";
+        try {
+            ResultSet resultSet = connection.prepareStatement(select).executeQuery();
+            while (resultSet.next()){
+                JSONObject res2 = new JSONObject();
+                key += 1;
+                res2.put("id",resultSet.getString("id"));
+                res2.put("cedula",resultSet.getString("cedula"));
+                res2.put("monto",resultSet.getInt("monto"));
+                res.put(String.valueOf(key), res2);
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public JSONObject autorizar(String cedula, String monto){
+        /*TODO: Eliminar despues de aceptada
+
+         */
+        res = new JSONObject();
+        String update = "UPDATE usuario set fondos = fondos + ? where cedula = ?";
+
+        try {
+            PreparedStatement stmt= connection.prepareStatement(update);
+            stmt.setInt(1, Integer.parseInt(monto));
+            stmt.setString(2, cedula);
+
+            System.out.println(stmt.executeUpdate());
+            return res.put("Aceptar", true);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return res.put("Aceptar", false);
+
+    }
 }

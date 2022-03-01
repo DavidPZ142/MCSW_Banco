@@ -56,6 +56,23 @@ public class ServiciosNiubank {
         return controller.solicitarSobregiro(paths[0].split("=")[1], paths[1].split("=")[1]);
     }
 
+    public JSONObject crearUser(String parametros){
+
+        String[] paths = parametros.split("&");
+        return controller.crearUser(paths[0].split("=")[1], paths[1].split("=")[1]);
+
+    }
+
+    public JSONObject mostrarAutorizaiones(){return controller.mostrarAutorizaciones();}
+
+    public JSONObject autorizar(String parametros){
+        String[] paths = parametros.split("&");
+        return controller.autorizar(paths[0].split("=")[1], paths[1].split("=")[1]);
+
+
+
+    }
+
 
 
 
